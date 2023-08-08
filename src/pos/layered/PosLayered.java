@@ -4,6 +4,8 @@
  */
 package pos.layered;
 
+import pos.layered.view.LayoutView;
+
 /**
  *
  * @author sachinthadilshan
@@ -15,6 +17,7 @@ public class PosLayered {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        new LayoutView().setVisible(true);
     }
     
 }
