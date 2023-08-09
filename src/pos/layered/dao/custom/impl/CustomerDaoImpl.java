@@ -33,7 +33,7 @@ public class CustomerDaoImpl implements CustomerDao{
     }
     @Override
     public boolean update(CustomerEntity t) throws Exception {
-        return CrudUtil.executeUpdate("update customer set custtitle=?, custname=?, dob=?,salary=?,address=?,city=?,province=?,zip=? where custid=?",
+        return CrudUtil.executeUpdate("update customer set custtitle=?, custname=?, dob=?,salary=?,CustAddress=?,city=?,province=?,PostalCode=? where custid=?",
                 t.getTitle(),
                 t.getName(),
                 t.getDob(),
@@ -47,7 +47,7 @@ public class CustomerDaoImpl implements CustomerDao{
 
     @Override
     public boolean delete(String id) throws Exception {
-        return CrudUtil.executeUpdate("delete fromm customer where custid=?", id);
+        return CrudUtil.executeUpdate("delete from customer where custid=?", id);
     }
 
     @Override
@@ -74,7 +74,6 @@ public class CustomerDaoImpl implements CustomerDao{
         ArrayList<CustomerEntity> customerEntitys = new ArrayList<>();
         ResultSet resultSet = CrudUtil.executeQuery("select * from customer");
         while (resultSet.next()) {
-            System.out.println("getAll");
             CustomerEntity customer = new CustomerEntity(
                     resultSet.getString(1),
                     resultSet.getString(2),

@@ -27,20 +27,16 @@ public class CustomerController {
         
     }
     
+    public CustomerDto getCustomer(String id) throws Exception{
+        return customerService.getCustomer(id);
+    }
+    
     public String updateCustomer(CustomerDto customerDto) throws Exception{
         return customerService.updateCustomer(customerDto);
     }
     
-    public String deleteCustomer(String custId) throws SQLException{
-        Connection connection = DBConnection.getInstance().getConnection();
-        String query = "delete from customer where custid=?";
-        PreparedStatement statement = connection.prepareCall(query);
-        statement.setString(1, custId);
-        if(statement.executeUpdate()>0){
-            return "Success";
-        }else{
-            return "Fail";
-        }
+    public String deleteCustomer(String custId) throws Exception{
+        return customerService.deleteCustomer(custId);
     }
     
     public ArrayList<CustomerDto> getAllCustomers() throws Exception{       

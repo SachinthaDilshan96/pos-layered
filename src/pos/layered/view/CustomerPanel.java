@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author sachinthadilshan
  */
 public class CustomerPanel extends javax.swing.JPanel {
+
     private CustomerController customerController;
 
     /**
@@ -25,7 +26,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         customerController = new CustomerController();
         initComponents();
         loadAllCustomers();
-        
+
     }
 
     /**
@@ -129,6 +130,11 @@ public class CustomerPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblCustomer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -247,16 +253,23 @@ public class CustomerPanel extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        deleteCustomer();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        updateCustomer();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         addCustomer();
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
+        // TODO add your handling code here:
+        searchCustomer();
+    }//GEN-LAST:event_tblCustomerMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -288,44 +301,43 @@ public class CustomerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtSalary;
     // End of variables declaration//GEN-END:variables
 
-    
-    public void addCustomer(){
+    public void addCustomer() {
         CustomerDto customerDto = new CustomerDto(
-                txtCustomerID.getText(), 
-                txtCustomerTitle.getText(), 
-                txtCustomerName.getText(), 
-                txtCustomerDob.getText(), 
-                Double.parseDouble(txtSalary.getText()), 
+                txtCustomerID.getText(),
+                txtCustomerTitle.getText(),
+                txtCustomerName.getText(),
+                txtCustomerDob.getText(),
+                Double.parseDouble(txtSalary.getText()),
                 txtAddress.getText(),
-                txtCity.getText(), 
+                txtCity.getText(),
                 txtProvince.getText(),
                 txtPostalCode.getText());
-        
-        
-        try{
+
+        try {
             String result = customerController.addCustomer(customerDto);
             JOptionPane.showMessageDialog(this, result);
             clear();
-        }catch(Exception e){
+            loadAllCustomers();
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        
+
     }
-    
-    public void clear(){
+
+    public void clear() {
         txtCustomerID.setText("");
-        txtCustomerTitle.setText(""); 
-        txtCustomerName.setText(""); 
-        txtCustomerDob.setText(""); 
+        txtCustomerTitle.setText("");
+        txtCustomerName.setText("");
+        txtCustomerDob.setText("");
         txtSalary.setText("");
         txtAddress.setText("");
         txtCity.setText("");
         txtProvince.setText("");
         txtPostalCode.setText("");
     }
-    
+
     public void loadAllCustomers() {
-       
+
         try {
             String[] columns = {"id", "Name", "Address", "Salary", "ZIP"};
             DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
@@ -335,9 +347,9 @@ public class CustomerPanel extends javax.swing.JPanel {
                 }
             };
             tblCustomer.setModel(dtm);
-           
+
             ArrayList<CustomerDto> customers = customerController.getAllCustomers();
-            
+
             for (CustomerDto customer : customers) {
                 Object[] rowData = {
                     customer.getId(),
@@ -352,5 +364,58 @@ public class CustomerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
+
+    private void deleteCustomer() {
+        try {
+            String resp = customerController.deleteCustomer(txtCustomerID.getText());
+            JOptionPane.showMessageDialog(this, resp);
+            loadAllCustomers();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+
+    }
+
+    private void updateCustomer() {
+        try {
+            String resp = customerController.updateCustomer(
+                    new CustomerDto(
+                            txtCustomerID.getText(),
+                            txtCustomerTitle.getText(),
+                            txtCustomerName.getText(),
+                            txtCustomerDob.getText(),
+                            Double.parseDouble(txtSalary.getText()),
+                            txtAddress.getText(),
+                            txtCity.getText(),
+                            txtProvince.getText(),
+                            txtPostalCode.getText()));
+            JOptionPane.showMessageDialog(this, resp);
+            loadAllCustomers();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
     
+    private void searchCustomer(){
+        try {
+            String custId = tblCustomer.getValueAt(tblCustomer.getSelectedRow(), 0).toString();
+            CustomerDto customerDto = customerController.getCustomer(custId);
+            if(customerDto!=null){
+                txtCustomerID.setText(customerDto.getId());
+                txtCustomerTitle.setText(customerDto.getTitle());
+                txtCustomerName.setText(customerDto.getName());
+                txtCustomerDob.setText(customerDto.getDob());
+                txtSalary.setText(Double.toString(customerDto.getSalary()));
+                txtAddress.setText(customerDto.getAddress());
+                txtCity.setText(customerDto.getCity());
+                txtProvince.setText(customerDto.getProvince());
+                txtPostalCode.setText(customerDto.getZip());
+            }else{
+                JOptionPane.showMessageDialog(this, "Customer Not found");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
 }
