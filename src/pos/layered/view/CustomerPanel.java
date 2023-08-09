@@ -7,6 +7,9 @@ package pos.layered.view;
 import javax.swing.JOptionPane;
 import pos.layered.controller.CustomerController;
 import pos.layered.dto.CustomerDto;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,6 +24,7 @@ public class CustomerPanel extends javax.swing.JPanel {
     public CustomerPanel() {
         customerController = new CustomerController();
         initComponents();
+        loadAllCustomers();
         
     }
 
@@ -58,7 +62,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         btnUpdate = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblCustomer = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -114,7 +118,7 @@ public class CustomerPanel extends javax.swing.JPanel {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -125,7 +129,7 @@ public class CustomerPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblCustomer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -272,7 +276,7 @@ public class CustomerPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblCustomer;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtCity;
     private javax.swing.JTextField txtCustomerDob;
@@ -298,9 +302,14 @@ public class CustomerPanel extends javax.swing.JPanel {
                 txtPostalCode.getText());
         
         
-        String result = customerController.addCustomer(customerDto);
-        JOptionPane.showMessageDialog(this, result);
-        clear();
+        try{
+            String result = customerController.addCustomer(customerDto);
+            JOptionPane.showMessageDialog(this, result);
+            clear();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        
     }
     
     public void clear(){
@@ -313,6 +322,35 @@ public class CustomerPanel extends javax.swing.JPanel {
         txtCity.setText("");
         txtProvince.setText("");
         txtPostalCode.setText("");
+    }
+    
+    public void loadAllCustomers() {
+       
+        try {
+            String[] columns = {"id", "Name", "Address", "Salary", "ZIP"};
+            DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            tblCustomer.setModel(dtm);
+           
+            ArrayList<CustomerDto> customers = customerController.getAllCustomers();
+            
+            for (CustomerDto customer : customers) {
+                Object[] rowData = {
+                    customer.getId(),
+                    customer.getTitle() + " " + customer.getName(),
+                    customer.getAddress(),
+                    customer.getSalary(),
+                    customer.getZip()
+                };
+                dtm.addRow(rowData);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
     
 }

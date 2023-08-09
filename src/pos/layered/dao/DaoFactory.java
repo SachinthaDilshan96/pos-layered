@@ -4,10 +4,38 @@
  */
 package pos.layered.dao;
 
+import pos.layered.dao.custom.impl.CustomerDaoImpl;
+
 /**
  *
  * @author sachinthadilshan
  */
 public class DaoFactory {
+    private static DaoFactory daoFactory;
+    
+    private DaoFactory(){
+        
+    }
+    
+    public static DaoFactory getInstance(){
+        if(daoFactory==null){
+            daoFactory = new DaoFactory();
+        }
+        return daoFactory;
+    }
+    
+    public SuperDao getDao(DaoTypes daoType){
+        switch (daoType) {
+            case CUSTOMER:
+                return new CustomerDaoImpl();
+              
+            default :
+               return null;
+        }
+    }
+    
+    public enum DaoTypes{
+        CUSTOMER
+    }
     
 }
