@@ -352,7 +352,6 @@ public class ItemPanel extends javax.swing.JPanel {
                 }
             };
             tblItem.setModel(dtm);
-            System.out.println("before all");
             ArrayList<ItemDto> items = itemController.getAllItems();
 
             for (ItemDto item : items) {

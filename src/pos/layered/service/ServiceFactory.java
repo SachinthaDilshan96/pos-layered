@@ -4,8 +4,12 @@
  */
 package pos.layered.service;
 
+import pos.layered.dao.custom.impl.OrderDaoImpl;
+import pos.layered.dao.custom.impl.OrderDetailDaoImpl;
 import pos.layered.service.custom.impl.CustomerServiceImpl;
 import pos.layered.service.custom.impl.ItemServiceImpl;
+import pos.layered.service.custom.impl.OrderDetailServiceImpl;
+import pos.layered.service.custom.impl.OrderServiceImpl;
 
 /**
  *
@@ -30,12 +34,16 @@ public class ServiceFactory {
                 return new CustomerServiceImpl();
             case ITEM:
                 return new ItemServiceImpl();
+            case ORDER:
+                return new OrderServiceImpl();
+            case ORDER_DETAIL:
+                return new OrderDetailServiceImpl();
             default:
                 return null;
         }
     }
     
     public enum ServiceType{
-        CUSTOMER,ITEM
+        CUSTOMER,ITEM,ORDER,ORDER_DETAIL
     }
 }

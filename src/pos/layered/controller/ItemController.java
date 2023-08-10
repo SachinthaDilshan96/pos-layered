@@ -35,7 +35,6 @@ public class ItemController {
     }
     
     public ArrayList<ItemDto> getAllItems() throws Exception{   
-        System.out.println(itemService);
         return itemService.getAllItem();
     }
 }

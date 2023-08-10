@@ -31,6 +31,7 @@ public class LayoutView extends javax.swing.JFrame {
         sideNavPannel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         bodyPannel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -71,6 +72,13 @@ public class LayoutView extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Order");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sideNavPannelLayout = new javax.swing.GroupLayout(sideNavPannel);
         sideNavPannel.setLayout(sideNavPannelLayout);
         sideNavPannelLayout.setHorizontalGroup(
@@ -79,7 +87,8 @@ public class LayoutView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(sideNavPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sideNavPannelLayout.setVerticalGroup(
@@ -89,7 +98,9 @@ public class LayoutView extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(551, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(522, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bodyPannelLayout = new javax.swing.GroupLayout(bodyPannel);
@@ -138,6 +149,11 @@ public class LayoutView extends javax.swing.JFrame {
         loadItemPanel(); 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        loadOrderPanel();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -147,6 +163,7 @@ public class LayoutView extends javax.swing.JFrame {
     private javax.swing.JPanel bodyPannel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel sideNavPannel;
@@ -166,6 +183,15 @@ public class LayoutView extends javax.swing.JFrame {
         ItemPanel itemPanel = new ItemPanel();
         itemPanel.setSize(bodyPannel.getWidth(),bodyPannel.getHeight());
         bodyPannel.add(itemPanel);
+        bodyPannel.repaint();
+        bodyPannel.revalidate();
+    }
+    
+    public void loadOrderPanel(){
+        bodyPannel.removeAll();
+        OrderPanel orderPanel = new OrderPanel();
+        orderPanel.setSize(bodyPannel.getWidth(),bodyPannel.getHeight());
+        bodyPannel.add(orderPanel);
         bodyPannel.repaint();
         bodyPannel.revalidate();
     }
