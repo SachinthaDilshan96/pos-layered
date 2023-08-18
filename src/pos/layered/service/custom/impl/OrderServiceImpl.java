@@ -50,6 +50,7 @@ public class OrderServiceImpl implements OrderService{
                     }
                     
                 }
+                
                 if(isOrderSaved){
                     boolean isItemUpdated = true;
                     for(OrderDetailDto orderDetailDto:dto.getOrderDetailDtos()){

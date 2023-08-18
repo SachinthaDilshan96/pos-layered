@@ -17,6 +17,7 @@ import pos.layered.dao.DaoFactory;
 public class CustomerServiceImpl implements CustomerService{
     
     CustomerDao customerDao =(CustomerDao) DaoFactory.getInstance().getDao(DaoFactory.DaoTypes.CUSTOMER);
+    
     @Override
     public String addCustomer(CustomerDto customerDto) throws Exception {
         CustomerEntity customerEntity = new CustomerEntity(

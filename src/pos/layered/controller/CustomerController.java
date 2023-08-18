@@ -4,14 +4,10 @@
  */
 package pos.layered.controller;
 
-import java.sql.PreparedStatement;
 import pos.layered.dto.CustomerDto;
 import pos.layered.service.custom.CustomerService;
 import pos.layered.service.ServiceFactory;
-import java.sql.SQLException;
-import java.sql.Connection;
 import java.util.ArrayList;
-import pos.layered.db.DBConnection;
 
 
 /**
